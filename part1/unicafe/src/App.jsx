@@ -17,22 +17,49 @@ const Statistics = (props) => {
     <div>
       <h2>Statistics</h2>
       {good || neutral || bad ? (
-        <div>
-          <StatisticsLine text="good" value={good} />
-          <StatisticsLine text="neutral" value={neutral} />
-          <StatisticsLine text="bad" value={bad} />
-          <StatisticsLine text="all" value={good + neutral + bad} />
-          <StatisticsLine
-            text="average"
-            value={
-              (good * 1 + neutral * 0 + bad * -1) / (good + neutral + bad) || 0
-            }
-          />
-          <StatisticsLine
-            text="positive"
-            value={`${(good / (good + neutral + bad)) * 100 || 0} %`}
-          />
-        </div>
+        <table>
+          <tbody>
+          <tr>
+            <td>
+              <StatisticsLine text="good" value={good} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine text="neutral" value={neutral} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine text="bad" value={bad} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine text="all" value={good + neutral + bad} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine
+                text="average"
+                value={
+                  (good * 1 + neutral * 0 + bad * -1) /
+                    (good + neutral + bad) || 0
+                }
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine
+                text="positive"
+                value={`${(good / (good + neutral + bad)) * 100 || 0} %`}
+              />
+            </td>
+          </tr>
+          </tbody>
+        </table>
       ) : (
         <div>No Feedback Given</div>
       )}
