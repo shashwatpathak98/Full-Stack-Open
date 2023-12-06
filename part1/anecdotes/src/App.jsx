@@ -34,7 +34,7 @@ const App = () => {
     copyVote[selected]++;
     return copyVote;
   };
-  console.log(vote);
+  // console.log(vote);
   let max = Number(Math.max(...vote));
   let idx = 0;
   for (let index = 0; index < vote.length; index++) {
@@ -42,7 +42,7 @@ const App = () => {
       idx = index;
     }
   }
-  console.log(max, idx);
+  // console.log(max, idx);
   return (
     <div>
       <h1>Anecdote of the day</h1>
