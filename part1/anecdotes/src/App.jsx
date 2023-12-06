@@ -34,9 +34,18 @@ const App = () => {
     copyVote[selected]++;
     return copyVote;
   };
-
+  console.log(vote);
+  let max = Number(Math.max(...vote));
+  let idx = 0;
+  for (let index = 0; index < vote.length; index++) {
+    if (vote[index] === max) {
+      idx = index;
+    }
+  }
+  console.log(max, idx);
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <div> {anecdotes[selected]} </div>
       <div> has {vote[selected]} votes</div>
       <Button onClick={() => setVote(fetchVote)} text="vote" />
@@ -44,6 +53,10 @@ const App = () => {
         onClick={() => setSelected(getRandomNumbers)}
         text="next anecdote"
       />
+      <h1>Anecdote with most votes</h1>
+      <div>
+        {anecdotes[idx]} <br /> has {vote[idx]} votes
+      </div>
     </div>
   );
 };
