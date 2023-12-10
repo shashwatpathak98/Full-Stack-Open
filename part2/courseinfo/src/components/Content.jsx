@@ -1,10 +1,6 @@
 const Content = ({ parts }) => {
   const sumOfExercises = () => {
-    let sum = 0;
-
-    for (let index = 0; index < parts.length; index++)
-      sum += parts[index].exercises;
-    return sum;
+    return parts.reduce((prev,curr) => prev + curr.exercises , 0)
   };
 
   return (
@@ -16,7 +12,7 @@ const Content = ({ parts }) => {
           </div>
         );
       })}
-      <div>{`total of ${sumOfExercises()}`}</div>
+      <div><b>{`total of ${sumOfExercises()} exercises`}</b></div>
     </div>
   );
 };
