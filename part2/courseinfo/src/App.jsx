@@ -45,7 +45,7 @@ const App = () => {
       ],
     },
   ];
-
+// returning multiple components
   return courses.map((course) => <Course key={course.id} course={course} />);
 };
 
