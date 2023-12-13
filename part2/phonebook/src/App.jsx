@@ -7,6 +7,14 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
+
+    //check if name already exists
+    const result = persons.find((person) => person.name === newName);
+
+    if (result) {
+      return;
+    }
+
     const noteObject = {
       name: newName,
       content: newName,
