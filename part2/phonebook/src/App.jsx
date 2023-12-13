@@ -12,6 +12,7 @@ const App = () => {
     const result = persons.find((person) => person.name === newName);
 
     if (result) {
+      alert(`${newName} is already added to the phonebook`);
       return;
     }
 
