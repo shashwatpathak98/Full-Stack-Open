@@ -34,14 +34,16 @@ const App = () => {
       return;
     }
 
-    const noteObject = {
+    const personObject = {
       name: newName,
-      content: newName,
       number: newNumber,
     };
-    setPersons(persons.concat(noteObject));
+    setPersons(persons.concat(personObject));
     setNewName("");
     setNewNumber("");
+    const request = axios.post("http://localhost:3002/persons" , personObject)
+    return request.then((response) => response.data)
+    
   };
 
   const handlePersonChange = (event) => {
