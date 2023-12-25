@@ -31,7 +31,25 @@ const App = () => {
     const result = persons.find((person) => person.name === newName);
 
     if (result) {
-      alert(`${newName} is already added to the phonebook`);
+      //alert(`${newName} is already added to the phonebook`);
+      const ans = window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      );
+      if (ans) {
+        personService
+          .update(result.id, {
+            ...result,
+            number: newNumber,
+          })
+          .then((updatedPerson) => {
+            console.log("updated person:", updatedPerson);
+            setPersons(
+              persons.map((person) =>
+                person.id !== result.id ? person : updatedPerson
+              )
+            );
+          });
+      }
       return;
     }
 
@@ -59,6 +77,15 @@ const App = () => {
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
+
+  const deletePerson = (id, name) => {
+    let val = window.confirm(`Delete ${name}?`);
+    if (val) {
+      personService.remove(id);
+      setPersons(persons.filter((person) => person.id !== id));
+    }
+  };
+
   const personsToShow = persons;
 
   return (
@@ -78,12 +105,24 @@ const App = () => {
         {personsToShow.map((person) => {
           // if filter is empty then we need to show all
           if (!filter) {
-            return <Person key={person.name} person={person} />;
+            return (
+              <Person
+                key={person.name}
+                person={person}
+                handleDelete={() => deletePerson(person.id, person.name)}
+              />
+            );
           }
 
           // if filter is defined then we need to search for substring in the persons array
           if (person.name.toLowerCase().includes(filter.toLowerCase().trim())) {
-            return <Person key={person.name} person={person} />;
+            return (
+              <Person
+                key={person.name}
+                person={person}
+                handleDelete={() => deletePerson(person.id, person.name)}
+              />
+            );
           }
         })}
       </span>
