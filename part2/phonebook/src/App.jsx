@@ -4,6 +4,7 @@ import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import axios from "axios";
 import personService from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -15,6 +16,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
 
   useEffect(() => {
     console.log("effect");
@@ -48,6 +51,16 @@ const App = () => {
                 person.id !== result.id ? person : updatedPerson
               )
             );
+
+            setNewName("");
+            setNewNumber("");
+            console.log("person name is ",updatedPerson.name);
+            setMessage(`${updatedPerson.name} has been updated.`);
+            setMessageType("success");
+
+            setTimeout(() => {
+              setMessage("");
+            }, 5000);
           });
       }
       return;
@@ -60,10 +73,16 @@ const App = () => {
 
     personService.create(personObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
-    });
+      setNewName("");
+      setNewNumber("");
+      console.log("person name is ", personObject.name);
+      setMessage(`${personObject.name} has been added.`);
+      setMessageType("success");
 
-    setNewName("");
-    setNewNumber("");
+      setTimeout(() => {
+        setMessage("");
+      }, 5000);
+    });
   };
 
   const handlePersonChange = (event) => {
@@ -91,6 +110,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {message && <Notification message={message} messageType={messageType} />}
       <Filter onChange={handleFilterChange} value={filter} />
       <h3>Add a new</h3>
       <PersonForm
