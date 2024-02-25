@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
+import Filter from "./components/Filter";
+import Notification from "./components/Notification";
 import Person from "./components/Person";
 import PersonForm from "./components/PersonForm";
-import Filter from "./components/Filter";
-import axios from "axios";
 import personService from "./services/persons";
-import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -54,7 +53,7 @@ const App = () => {
 
             setNewName("");
             setNewNumber("");
-            console.log("person name is ",updatedPerson.name);
+            console.log("person name is ", updatedPerson.name);
             setMessage(`${updatedPerson.name} has been updated.`);
             setMessageType("success");
 
@@ -100,8 +99,21 @@ const App = () => {
   const deletePerson = (id, name) => {
     let val = window.confirm(`Delete ${name}?`);
     if (val) {
-      personService.remove(id);
-      setPersons(persons.filter((person) => person.id !== id));
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+          setMessage(`${name} has been deleted.`);
+          setMessageType("success");
+        })
+        .catch((error) => {
+          setMessage(`${name} was already removed from the server.`);
+          setMessageType("error");
+          setPersons(persons.filter((person) => person.id !== id));
+        });
+      setTimeout(() => {
+        setMessage("");
+      }, 5000);
     }
   };
 
