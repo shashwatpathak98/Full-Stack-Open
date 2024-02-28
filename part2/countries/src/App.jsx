@@ -31,7 +31,7 @@ function CountryDetails({ name }) {
       {details && (
         <ul>
           {langArr.map((lang) => (
-            <li>{lang}</li>
+            <li key={Math.random() * 1000}>{lang}</li>
           ))}
         </ul>
       )}
@@ -42,13 +42,34 @@ function CountryDetails({ name }) {
 }
 
 function Countries({ countryList }) {
+  const [countryButton, setCountryButton] = useState("");
+
+  const setButton = (country) => {
+    setCountryButton(country);
+  };
+
   return (
     <div>
       <span>
         {countryList && countryList.length < 10
-          ? countryList.map((country) => <div key={country}>{country}</div>)
+          ? countryList.map((country) => (
+              <div key={country}>
+                {country}
+                <button
+                  key={Math.random() * 100000}
+                  onClick={() => setButton(country)}
+                >
+                  show
+                </button>
+              </div>
+            ))
           : "Too many countries"}
       </span>
+      {countryButton ? (
+        <CountryDetails name={countryButton} />
+      ) : (
+        <div key={countryButton}></div>
+      )}
     </div>
   );
 }
